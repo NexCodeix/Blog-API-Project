@@ -1,0 +1,29 @@
+title, content, user
+
+obj = Blog.objects.create(title=new_title, content=new_content, user=user)
+
+{
+    "title": "new_title",
+    "content": "New Content",
+    "user": "admin",
+}
+
+qs = Blog.objects.all()
+
+[
+    {
+        "title": "new_title",
+        "content": "New Content",
+        "user": "admin",
+    },
+    {
+        "title": "new_title",
+        "content": "New Content",
+        "user": "admin",
+    },
+    {
+        "title": "new_title",
+        "content": "New Content",
+        "user": "admin",
+    }
+]

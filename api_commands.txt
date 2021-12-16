@@ -1,0 +1,33 @@
+>>> from blog.models import Blog
+>>> from blog.api.serializers import BlogSerializer
+>>> blog = Blog.objects.first()
+>>> blog
+>>> serialized = BlogSerializer(instance=blog)
+
+BlogSerializer(instance=<Blog: Blog 1>):
+    id = IntegerField(label='ID', read_only=True)
+    title = CharField(max_length=250)
+    content = CharField(style={'base_template': 'textarea.html'})
+    date_created = DateTimeField(read_only=True)
+    last_updated = DateTimeField(read_only=True)
+    user = PrimaryKeyRelatedField(queryset=User.objects.all())
+
+>>> data = serialized.data
+>>> data
+{'id': 1, 'title': 'Blog 1', 'content': 'Hello Blog', 'date_created': '2021-12-16T05:22:20.398743Z', 'last_updated': '2021-12-16T05:22:20.398743Z', 'user': 1}
+
+=======================================================================================================
+
+>>> serialized = BlogSerializer(instance=qs, many=True)
+>>> serialized
+BlogSerializer(instance=<QuerySet [<Blog: Blog 1>, <Blog: Blog 2>, <Blog: Blog 3>]>, many=True):
+    id = IntegerField(label='ID', read_only=True)
+    title = CharField(max_length=250)
+    content = CharField(style={'base_template': 'textarea.html'})
+    date_created = DateTimeField(read_only=True)
+    last_updated = DateTimeField(read_only=True)
+    user = PrimaryKeyRelatedField(queryset=User.objects.all())
+>>> serialized.data
+[OrderedDict([('id', 1), ('title', 'Blog 1'), ('content', 'Hello Blog'), ('date_created', '2021-12-16T05:22:20.398743Z'), ('last_updated', '2021-12-16T05:22:20.398743Z'), ('user', 1)]), OrderedDict([('id', 2), ('title', 'Blog 2'), ('content', 'This is Second Blog'), ('date_created', '2021-12-16T05:22:34.491070Z'), ('last_updated', '2021-12-16T05:22:34.491070Z'), ('user', 1)]), OrderedDict([('id', 3), ('title', 'Blog 3'), ('content', 'Hello everyone'), ('date_created', '2021-12-16T05:22:44.880582Z'), ('last_updated', '2021-12-16T05:22:44.880582Z'), ('user', 1)])]
+
+========================================================================================================
