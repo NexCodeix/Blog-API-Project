@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from ..models import Blog
-from .serializers import BlogSerializer
+from .serializers import BlogSerializer, BlogDetailSerializer
 
 
 @api_view(http_method_names=["GET", ])
@@ -20,11 +20,15 @@ def blog_list_api_view(request):
 def blog_detail_api_view(request, pk):
     # if request.method == "POST":
     #     pass
+
+    print("FROM VIEW REQUEST METHOD ", request.method)
     try:
         obj = Blog.objects.get(pk=pk)
     except ObjectDoesNotExist:
         return Response("data not Found", status.HTTP_404_NOT_FOUND)
-    serialized = BlogSerializer(instance=obj)
+    serialized = BlogDetailSerializer()
+    serialized.context["request"] = request
+    serialized.instance = obj
     data = serialized.data
     return Response(data, status.HTTP_200_OK)
 
