@@ -8,6 +8,7 @@ class BlogSerializer(serializers.ModelSerializer):
     """
     BLOG LIST SERIALIZER
     """
+    user = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = Blog
@@ -34,7 +35,7 @@ class BlogImageListSerializer(serializers.ModelSerializer):
 
 
 class BlogDetailSerializer(serializers.ModelSerializer):
-    blogimage_set = BlogImageListSerializer(many=True)
+    blogimage_set = BlogImageListSerializer(many=True, read_only=True)
     title_number = serializers.SerializerMethodField(method_name="get_char")
 
     class Meta:
